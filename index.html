@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coder's Toolbox</title>
+    <link rel="Shortcut Icon" href="logo.ico" type="ico">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="navbar">
+                <li><a href="#number-conversion" class="tab-link" data-tab="number-conversion">Number Conversion</a></li>
+                <li><a href="#time-conversion" class="tab-link" data-tab="time-conversion">Time Conversion</a></li>
+                <li><a href="#string-conversion" class="tab-link" data-tab="string-conversion">String Conversion</a></li>
+                <li><a href="#network" class="tab-link" data-tab="network">Network</a></li>
+                <li><a href="#bandwidth" class="tab-link" data-tab="bandwidth">Bandwidth</a></li>
+                <li><a href="#xpath" class="tab-link" data-tab="xpath">XPath (Beta)</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+
+    <section id="time-conversion" class="tab-content">
+        <h2>Time Conversion</h2>
+        <form id="time-converter-form">
+            <label for="hours">Hours</label>
+            <input type="text" id="hours" placeholder="Enter hours">
+    
+            <label for="minutes">Minutes</label>
+            <input type="text" id="minutes" placeholder="Enter minutes">
+    
+            <label for="seconds">Seconds</label>
+            <input type="text" id="seconds" placeholder="Enter seconds">
+    
+            <label for="milliseconds">Milliseconds</label>
+            <input type="text" id="milliseconds" placeholder="Enter milliseconds">
+            
+            <br>
+            <!-- Reset button -->
+            <button type="button" id="time-reset-btn">Reset</button>
+        </form>
+    </section>
+    
+    <section id="number-conversion" class="tab-content active">
+        <h2>Number Conversion</h2>
+        <form id="converter-form">
+            <label for="decimal">Decimal (10)</label>
+            <input type="text" id="decimal" placeholder="Enter decimal value">
+        
+            <label for="hex">Hex (16)</label>
+            <input type="text" id="hex" placeholder="Enter hexadecimal value">
+        
+            <label for="octal">Octal (8)</label>
+            <input type="text" id="octal" placeholder="Enter octal value">
+        
+            <label for="binary">Binary (2)</label>
+            <input type="text" id="binary" placeholder="Enter binary value">
+        <br>
+            <!-- Reset button -->
+            <button type="button" id="reset-btn">Reset</button>
+        </form>         
+    </section>
+
+    <section id="string-conversion" class="tab-content">
+        <h2>String Conversion</h2>
+        <form id="string-converter-form">
+            <label for="input-string">Input String</label>
+            <input type="text" id="input-string" placeholder="Enter a string">
+            
+            <label for="uppercase">Uppercase</label>
+            <input type="text" id="uppercase" placeholder="Uppercase" readonly>
+    
+            <label for="lowercase">Lowercase</label>
+            <input type="text" id="lowercase" placeholder="Lowercase" readonly>
+    
+            <label for="reverse">Reversed String</label>
+            <input type="text" id="reverse" placeholder="Reversed String" readonly>
+    
+            <label for="length">String Length</label>
+            <input type="text" id="length" placeholder="String Length" readonly>
+            
+            <br>
+            <!-- Reset button -->
+            <button type="button" id="reset-string-btn">Reset</button>
+        </form>
+    </section>
+
+    <section id="network" class="tab-content">
+        <h2>Network Conversion</h2>
+        <form id="network-converter-form">
+            <label for="ip-address">IP Address</label>
+            <input type="text" id="ip-address" placeholder="Enter an IP address (e.g., 192.168.1.1)">
+    
+            <label for="decimal-ip">Decimal</label>
+            <input type="text" id="decimal-ip" placeholder="Decimal representation" readonly>
+    
+            <label for="binary-ip">Binary</label>
+            <input type="text" id="binary-ip" placeholder="Binary representation" readonly>
+    
+            <label for="hex-ip">Hexadecimal</label>
+            <input type="text" id="hex-ip" placeholder="Hexadecimal representation" readonly>
+            
+            <br>
+            <!-- Reset button -->
+            <button type="button" id="reset-network-btn">Reset</button>
+        </form>
+    </section>
+    
+    <section id="bandwidth" class="tab-content">
+        <h2>Bandwidth Conversion</h2>
+        <form id="bandwidth-converter-form">
+            <label for="bandwidth-value">Enter Bandwidth Value</label>
+            <input type="text" id="bandwidth-value" placeholder="Enter value (e.g., 100)">
+    
+            <label for="bandwidth-unit">Select Unit</label>
+            <select id="bandwidth-unit">
+                <option value="bps">bps (Bits per second)</option>
+                <option value="kbps">kbps (Kilobits per second)</option>
+                <option value="mbps">Mbps (Megabits per second)</option>
+                <option value="gbps">Gbps (Gigabits per second)</option>
+            </select>
+    
+            <h3>Converted Values</h3>
+            <label for="kbps-output">Kilobits per second (kbps)</label>
+            <input type="text" id="kbps-output" placeholder="Converted value" readonly>
+    
+            <label for="mbps-output">Megabits per second (Mbps)</label>
+            <input type="text" id="mbps-output" placeholder="Converted value" readonly>
+    
+            <label for="gbps-output">Gigabits per second (Gbps)</label>
+            <input type="text" id="gbps-output" placeholder="Converted value" readonly>
+    
+            <br>
+            <!-- Reset button -->
+            <button type="button" id="reset-bandwidth-btn">Reset</button>
+        </form>
+    </section>
+    
+    <section id="xpath" class="tab-content">
+        <h2>XPath (Beta)</h2>
+        <form id="xpath-tester-form">
+            <label for="xml-content">Enter XML/HTML Content</label>
+            <textarea id="xml-content" rows="10" placeholder="Paste your XML/HTML content here"></textarea>
+            
+            <label for="xpath-expression">Enter XPath Expression</label>
+            <input type="text" id="xpath-expression" placeholder="Enter XPath expression">
+            
+            <br>
+            <!-- XPath Evaluate Button -->
+            <button type="button" id="evaluate-xpath-btn">Evaluate XPath</button>
+    
+            <h3>Results</h3>
+            <pre id="xpath-results">Results will appear here...</pre>
+    
+            <!-- Reset button -->
+            <button type="button" id="reset-xpath-btn">Reset</button>
+        </form>
+    </section>
+    
+
+    <script src="scripts.js"></script> <!-- Link to your JS file -->
+</body>
+</html>

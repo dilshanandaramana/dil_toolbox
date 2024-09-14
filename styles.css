@@ -1,0 +1,267 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #f7931e;
+    padding: 10px 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li {
+    margin: 0 15px;
+}
+
+.navbar li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1em;
+}
+
+/* Hide all tab content by default */
+.tab-content {
+    display: none;
+}
+
+/* Show the active tab */
+.tab-content.active {
+    display: block;
+}
+
+/* Style for active link */
+.tab-link.active {
+    font-weight: bold;
+    color: #f7931e;
+}
+
+
+#number-conversion {
+    padding: 20px;
+    text-align: center;
+}
+
+form label {
+    display: block;
+    margin-top: 15px;
+}
+
+input {
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 15px;
+    font-size: 1em;
+}
+
+#reset-btn {
+    background-color: #00a78e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#reset-btn:hover {
+    background-color: #00695a;
+}
+
+/* Time */
+
+#time-conversion {
+    padding: 20px;
+    text-align: center;
+}
+
+#time-converter-form input {
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 15px;
+    font-size: 1em;
+}
+
+#time-reset-btn {
+    background-color: #00a78e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#time-reset-btn:hover {
+    background-color: #00695a;
+}
+
+/* String Conversion */
+
+#string-conversion {
+    padding: 20px;
+    text-align: center;
+}
+
+#string-conversion form label {
+    display: block;
+    margin-top: 15px;
+}
+
+#string-conversion input {
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 15px;
+    font-size: 1em;
+}
+
+#reset-string-btn {
+    background-color: #00a78e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#reset-string-btn:hover {
+    background-color: #00695a;
+}
+
+/* network fields */
+
+#network {
+    padding: 20px;
+    text-align: center;
+}
+
+#network form label {
+    display: block;
+    margin-top: 15px;
+}
+
+#network input {
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 15px;
+    font-size: 1em;
+}
+
+#reset-network-btn {
+    background-color: #00a78e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#reset-network-btn:hover {
+    background-color: #00695a;
+}
+
+/* Bandwidth Conversion */
+
+#bandwidth {
+    padding: 20px;
+    text-align: center;
+}
+
+#bandwidth form label {
+    display: block;
+    margin-top: 15px;
+}
+
+#bandwidth input, #bandwidth select {
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 15px;
+    font-size: 1em;
+}
+
+#reset-bandwidth-btn {
+    background-color: #00a78e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#reset-bandwidth-btn:hover {
+    background-color: #00695a;
+}
+
+
+/* XPath expression */
+
+#xpath {
+    padding: 20px;
+    text-align: center;
+}
+
+#xpath form label {
+    display: block;
+    margin-top: 15px;
+}
+
+#xml-content, #xpath-expression {
+    padding: 10px;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 15px;
+    font-size: 1em;
+}
+
+#xml-content {
+    font-family: monospace;
+}
+
+#evaluate-xpath-btn, #reset-xpath-btn {
+    background-color: #00a78e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+#evaluate-xpath-btn:hover, #reset-xpath-btn:hover {
+    background-color: #00695a;
+}
+
+#xpath-results {
+    background-color: #f4f4f4;
+    padding: 10px;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    margin-top: 20px;
+    font-family: monospace;
+    text-align: left;
+    white-space: pre-wrap;
+}
+
