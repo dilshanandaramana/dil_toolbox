@@ -322,3 +322,73 @@ function resetXPathFields() {
 
 // Reset button functionality for XPath
 document.getElementById("reset-xpath-btn").addEventListener("click", resetXPathFields);
+
+
+
+
+
+// Mobile navigation functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // First, let's create and add the necessary elements for mobile navigation
+    const header = document.querySelector('header');
+    
+    // Create menu toggle button
+    const menuToggle = document.createElement('button');
+    menuToggle.className = 'menu-toggle';
+    menuToggle.innerHTML = '☰';
+    menuToggle.setAttribute('aria-label', 'Toggle navigation menu');
+    header.appendChild(menuToggle);
+    
+    // Create side navigation
+    const sidenav = document.createElement('div');
+    sidenav.className = 'sidenav';
+    sidenav.innerHTML = '<a href="javascript:void(0)" class="closebtn">&times;</a>';
+    
+    // Clone navigation links to sidenav
+    const navLinks = document.querySelectorAll('.navbar li a');
+    navLinks.forEach(link => {
+        const clonedLink = link.cloneNode(true);
+        sidenav.appendChild(clonedLink);
+    });
+    
+    // Add sidenav to the body
+    document.body.appendChild(sidenav);
+    
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    document.body.appendChild(overlay);
+    
+    // Toggle side navigation
+    menuToggle.addEventListener('click', function() {
+        sidenav.classList.add('open');
+        overlay.classList.add('active');
+        document.body.classList.add('sidenav-open');
+    });
+    
+    // Close side navigation when clicking on close button
+    const closeBtn = sidenav.querySelector('.closebtn');
+    closeBtn.addEventListener('click', closeSidenav);
+    
+    // Close side navigation when clicking on overlay
+    overlay.addEventListener('click', closeSidenav);
+    
+    // Close side navigation when clicking on a link
+    const sidenavLinks = sidenav.querySelectorAll('a:not(.closebtn)');
+    sidenavLinks.forEach(link => {
+        link.addEventListener('click', closeSidenav);
+    });
+    
+    function closeSidenav() {
+        sidenav.classList.remove('open');
+        overlay.classList.remove('active');
+        document.body.classList.remove('sidenav-open');
+    }
+    
+    // Close sidenav on window resize if screen becomes larger
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            closeSidenav();
+        }
+    });
+});
