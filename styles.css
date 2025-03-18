@@ -18,8 +18,7 @@ header {
 
 /* Site title */
 .site-title {
-    text-align: left;
-    margin: 15px 0 15px 15px;
+    margin: 10px 0 10px 10px;
     padding: 0;
 }
 
@@ -34,7 +33,7 @@ header {
 }
 
 .site-title a:hover {
-    color: #0000AA;
+    color: #fff;
     text-decoration: underline;
 }
 
