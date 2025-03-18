@@ -327,7 +327,8 @@ document.getElementById("reset-xpath-btn").addEventListener("click", resetXPathF
 
 
 
-// Mobile navigation functionality
+
+// Popup Menu Navigation
 document.addEventListener('DOMContentLoaded', function() {
     // First, let's create and add the necessary elements for mobile navigation
     const header = document.querySelector('header');
@@ -339,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function() {
     menuToggle.setAttribute('aria-label', 'Toggle navigation menu');
     header.appendChild(menuToggle);
     
-    // Create side navigation
+    // Create side navigation (popup style)
     const sidenav = document.createElement('div');
     sidenav.className = 'sidenav';
     sidenav.innerHTML = '<a href="javascript:void(0)" class="closebtn">&times;</a>';
@@ -363,7 +364,11 @@ document.addEventListener('DOMContentLoaded', function() {
     menuToggle.addEventListener('click', function() {
         sidenav.classList.add('open');
         overlay.classList.add('active');
-        document.body.classList.add('sidenav-open');
+        
+        // Add a slight delay to improve animation
+        setTimeout(() => {
+            sidenav.style.transition = 'all 0.3s ease-in-out';
+        }, 50);
     });
     
     // Close side navigation when clicking on close button
@@ -382,7 +387,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function closeSidenav() {
         sidenav.classList.remove('open');
         overlay.classList.remove('active');
-        document.body.classList.remove('sidenav-open');
     }
     
     // Close sidenav on window resize if screen becomes larger
@@ -390,5 +394,52 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.innerWidth > 768) {
             closeSidenav();
         }
+    });
+    
+    // Add active class to current tab based on URL
+    function setActiveTab() {
+        const currentLocation = window.location.hash || '#number-conversion';
+        
+        // Remove active class from all tabs
+        document.querySelectorAll('.tab-link').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // Add active class to current tab
+        document.querySelectorAll(`.tab-link[href="${currentLocation}"]`).forEach(tab => {
+            tab.classList.add('active');
+        });
+        
+        // Hide all content sections
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // Show current content section
+        const currentTabContent = document.querySelector(currentLocation);
+        if (currentTabContent) {
+            currentTabContent.classList.add('active');
+        } else {
+            // Default to first tab if hash doesn't match any content
+            document.querySelector('#number-conversion').classList.add('active');
+        }
+    }
+    
+    // Set active tab on page load
+    setActiveTab();
+    
+    // Update active tab when hash changes
+    window.addEventListener('hashchange', setActiveTab);
+    
+    // Add animation effects on input fields
+    const inputFields = document.querySelectorAll('input');
+    inputFields.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.classList.add('input-focused');
+        });
+        
+        input.addEventListener('blur', function() {
+            this.parentElement.classList.remove('input-focused');
+        });
     });
 });
