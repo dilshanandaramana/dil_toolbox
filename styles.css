@@ -16,25 +16,56 @@ header {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.navbar {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    list-style: none;
-    margin: 0;
+/* Site title */
+.site-title {
+    text-align: center;
+    margin: 0 0 10px 0;
     padding: 0;
 }
 
+.site-title a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.3em;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    transition: color 0.3s;
+}
+
+.site-title a:hover {
+    color: #f7931e;
+}
+
+/* Navigation menu */
+.navbar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    list-style: none;
+    margin: 0;
+    padding: 0 5px;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scrollbar-width: none; /* Hide scrollbar on Firefox */
+}
+
+.navbar::-webkit-scrollbar {
+    display: none; /* Hide scrollbar on Chrome/Safari */
+}
+
 .navbar li {
-    margin: 5px 10px;
+    flex: 0 0 auto;
+    margin: 0 2px;
+    white-space: nowrap;
 }
 
 .navbar li a {
     color: white;
     text-decoration: none;
-    font-size: 1.1em;
-    padding: 5px 8px;
+    font-size: 1rem;
+    padding: 8px 12px;
     border-radius: 4px;
+    display: block;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -160,20 +191,22 @@ h3 {
 
 /* Responsive styles */
 @media screen and (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: center;
+    .site-title {
+        margin-bottom: 8px;
     }
     
-    .navbar li {
-        margin: 5px 0;
-        width: 100%;
-        text-align: center;
+    .site-title a {
+        font-size: 1.1em;
+    }
+    
+    .navbar {
+        padding: 0;
+        justify-content: flex-start;
     }
     
     .navbar li a {
-        display: block;
-        padding: 8px;
+        padding: 8px 10px;
+        font-size: 0.9rem;
     }
     
     input, select, textarea, #xml-content, #xpath-results {
