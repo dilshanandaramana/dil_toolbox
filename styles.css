@@ -18,22 +18,39 @@ header {
 
 /* Site title */
 .site-title {
-    text-align: center;
-    margin: 0 0 10px 0;
+    text-align: left;
+    margin: 15px 0 15px 15px;
     padding: 0;
 }
 
 .site-title a {
-    color: white;
+    color: #0000FF;
     text-decoration: none;
-    font-size: 1.3em;
+    font-size: 1.5em;
     font-weight: bold;
     letter-spacing: 0.5px;
     transition: color 0.3s;
+    text-transform: uppercase;
 }
 
 .site-title a:hover {
-    color: #f7931e;
+    color: #0000AA;
+    text-decoration: underline;
+}
+
+/* Mobile menu toggle button */
+.menu-toggle {
+    display: none;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1000;
+    padding: 5px;
 }
 
 /* Navigation menu */
@@ -71,6 +88,46 @@ header {
 
 .navbar li a:hover {
     background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Side Navigation Menu */
+.sidenav {
+    height: 100%;
+    width: 0; 
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.3s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 15px 25px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.sidenav.open {
+    width: 250px;
 }
 
 /* Tab content management */
@@ -192,21 +249,21 @@ h3 {
 /* Responsive styles */
 @media screen and (max-width: 768px) {
     .site-title {
-        margin-bottom: 8px;
+        margin: 15px 0 15px 15px;
     }
     
     .site-title a {
-        font-size: 1.1em;
+        font-size: 1.2em;
     }
     
+    /* Show menu toggle button on mobile */
+    .menu-toggle {
+        display: block;
+    }
+    
+    /* Hide horizontal navbar on mobile */
     .navbar {
-        padding: 0;
-        justify-content: flex-start;
-    }
-    
-    .navbar li a {
-        padding: 8px 10px;
-        font-size: 0.9rem;
+        display: none;
     }
     
     input, select, textarea, #xml-content, #xpath-results {
@@ -215,6 +272,28 @@ h3 {
     
     .tab-content {
         padding: 15px 10px;
+    }
+    
+    /* Add content shift when sidenav is open */
+    body.sidenav-open {
+        margin-left: 250px;
+        transition: margin-left 0.3s;
+    }
+    
+    /* Darken the main content when sidenav is open */
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 998;
+    }
+    
+    .overlay.active {
+        display: block;
     }
 }
 
