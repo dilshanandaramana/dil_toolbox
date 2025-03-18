@@ -26,7 +26,7 @@ header {
 .site-title a {
     color: #0dffff;
     text-decoration: none;
-    font-size: 1em;
+    font-size: 0.6em;
     font-weight: bold;
     letter-spacing: 0.5px;
     transition: color 0.3s;
