@@ -328,19 +328,23 @@ document.getElementById("reset-xpath-btn").addEventListener("click", resetXPathF
 
 
 
-// Popup Menu Navigation
-document.addEventListener('DOMContentLoaded', function() {
-    // First, let's create and add the necessary elements for mobile navigation
+// Mobile Menu Implementation
+    // Create mobile menu container
     const header = document.querySelector('header');
+    const mobileNavContainer = document.createElement('div');
+    mobileNavContainer.className = 'mobile-nav-container';
     
     // Create menu toggle button
     const menuToggle = document.createElement('button');
     menuToggle.className = 'menu-toggle';
     menuToggle.innerHTML = '☰';
     menuToggle.setAttribute('aria-label', 'Toggle navigation menu');
-    header.appendChild(menuToggle);
+    mobileNavContainer.appendChild(menuToggle);
     
-    // Create side navigation (popup style)
+    // Insert mobile nav container after header
+    header.after(mobileNavContainer);
+    
+    // Create mobile navigation (popup style)
     const sidenav = document.createElement('div');
     sidenav.className = 'sidenav';
     sidenav.innerHTML = '<a href="javascript:void(0)" class="closebtn">&times;</a>';
@@ -364,11 +368,6 @@ document.addEventListener('DOMContentLoaded', function() {
     menuToggle.addEventListener('click', function() {
         sidenav.classList.add('open');
         overlay.classList.add('active');
-        
-        // Add a slight delay to improve animation
-        setTimeout(() => {
-            sidenav.style.transition = 'all 0.3s ease-in-out';
-        }, 50);
     });
     
     // Close side navigation when clicking on close button
@@ -381,7 +380,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // Close side navigation when clicking on a link
     const sidenavLinks = sidenav.querySelectorAll('a:not(.closebtn)');
     sidenavLinks.forEach(link => {
-        link.addEventListener('click', closeSidenav);
+        link.addEventListener('click', function(e) {
+            // If it's not the HOME PAGE link that should navigate away
+            if (this.getAttribute('href') !== 'https://dilshanandaramana.com/') {
+                e.preventDefault();
+                
+                // Get tab ID
+                const tabId = this.getAttribute('data-tab');
+                
+                // Show the clicked tab content
+                document.querySelectorAll(".tab-content").forEach(tab => {
+                    tab.classList.remove("active");
+                });
+                document.getElementById(tabId).classList.add("active");
+                
+                // Update active classes
+                document.querySelectorAll(".tab-link").forEach(tab => {
+                    tab.classList.remove("active");
+                });
+                this.classList.add("active");
+            }
+            
+            // Close the menu
+            closeSidenav();
+        });
     });
     
     function closeSidenav() {
@@ -389,57 +411,21 @@ document.addEventListener('DOMContentLoaded', function() {
         overlay.classList.remove('active');
     }
     
-    // Close sidenav on window resize if screen becomes larger
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
-            closeSidenav();
-        }
-    });
-    
-    // Add active class to current tab based on URL
-    function setActiveTab() {
-        const currentLocation = window.location.hash || '#number-conversion';
-        
-        // Remove active class from all tabs
-        document.querySelectorAll('.tab-link').forEach(tab => {
-            tab.classList.remove('active');
-        });
-        
-        // Add active class to current tab
-        document.querySelectorAll(`.tab-link[href="${currentLocation}"]`).forEach(tab => {
-            tab.classList.add('active');
-        });
-        
-        // Hide all content sections
-        document.querySelectorAll('.tab-content').forEach(content => {
-            content.classList.remove('active');
-        });
-        
-        // Show current content section
-        const currentTabContent = document.querySelector(currentLocation);
-        if (currentTabContent) {
-            currentTabContent.classList.add('active');
+    // Set the default active tab on page load
+    function setDefaultActiveTab() {
+        const hash = window.location.hash;
+        if (hash && document.querySelector(hash)) {
+            // Trigger click on the tab link matching the hash
+            document.querySelector(`.tab-link[href="${hash}"]`).click();
         } else {
-            // Default to first tab if hash doesn't match any content
-            document.querySelector('#number-conversion').classList.add('active');
+            // Default to number conversion
+            document.querySelector('.tab-link[data-tab="number-conversion"]').click();
         }
     }
     
-    // Set active tab on page load
-    setActiveTab();
+    // Set default active tab
+    setDefaultActiveTab();
     
     // Update active tab when hash changes
-    window.addEventListener('hashchange', setActiveTab);
-    
-    // Add animation effects on input fields
-    const inputFields = document.querySelectorAll('input');
-    inputFields.forEach(input => {
-        input.addEventListener('focus', function() {
-            this.parentElement.classList.add('input-focused');
-        });
-        
-        input.addEventListener('blur', function() {
-            this.parentElement.classList.remove('input-focused');
-        });
-    });
+    window.addEventListener('hashchange', setDefaultActiveTab);
 });
