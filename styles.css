@@ -18,6 +18,7 @@ header {
 
 /* Site title */
 .site-title {
+    text-align: center;
     margin: 5px;
     padding: 0;
 }
@@ -132,7 +133,7 @@ header {
 /* Tab content management */
 .tab-content {
     display: none;
-    padding: 20px;
+    padding: 2px;
     max-width: 800px;
     margin: 0 auto;
 }
