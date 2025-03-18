@@ -247,6 +247,9 @@ h3 {
 
 /* Responsive styles */
 @media screen and (max-width: 768px) {
+    header {
+    text-align-last: right;
+        
     .site-title {
         margin: 5px;
     }
@@ -300,6 +303,9 @@ h3 {
     input, select, textarea {
         font-size: 16px; /* Prevents zoom on focus in iOS */
     }
+
+    header {
+    text-align-last: right;
     
     button {
         width: 90%;
