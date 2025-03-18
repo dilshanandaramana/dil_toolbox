@@ -18,7 +18,7 @@ header {
 
 /* Site title */
 .site-title {
-    margin: 10px 0 10px 10px;
+    margin: 5px;
     padding: 0;
 }
 
@@ -248,11 +248,11 @@ h3 {
 /* Responsive styles */
 @media screen and (max-width: 768px) {
     .site-title {
-        margin: 15px 0 15px 15px;
+        margin: 5px;
     }
     
     .site-title a {
-        font-size: 1.2em;
+        font-size: 0.5em;
     }
     
     /* Show menu toggle button on mobile */
