@@ -80,8 +80,6 @@ function resetFields() {
 // Reset button functionality
 document.getElementById("reset-btn").addEventListener("click", resetFields);
 
-
-
 // Event listener for Hours input
 document.getElementById("hours").addEventListener("input", function() {
     let hoursValue = parseFloat(this.value);
@@ -141,7 +139,6 @@ function resetTimeFields() {
 // Reset button functionality
 document.getElementById("time-reset-btn").addEventListener("click", resetTimeFields);
 
-
 // Event listener for String input
 document.getElementById("input-string").addEventListener("input", function() {
     let inputValue = this.value;
@@ -167,7 +164,6 @@ document.getElementById("reset-string-btn").addEventListener("click", function()
     document.getElementById("reverse").value = "";
     document.getElementById("length").value = "";
 });
-
 
 // Function to convert IP address to decimal, binary, and hexadecimal
 function convertIp(ip) {
@@ -207,7 +203,6 @@ document.getElementById("reset-network-btn").addEventListener("click", function(
     document.getElementById("ip-address").value = "";
     resetNetworkFields();
 });
-
 
 // Conversion rates
 const conversions = {
@@ -262,7 +257,6 @@ document.getElementById("reset-bandwidth-btn").addEventListener("click", functio
     document.getElementById("bandwidth-value").value = "";
     resetBandwidthFields();
 });
-
 
 // Function to evaluate XPath expression
 function evaluateXPath() {
