@@ -21,11 +21,6 @@ tabLinks.forEach(link => {
     });
 });
 
-
-
-
-
-
 // Event listener for Decimal input
 document.getElementById("decimal").addEventListener("input", function() {
     let decimalValue = parseInt(this.value, 10);
@@ -323,12 +318,8 @@ function resetXPathFields() {
 // Reset button functionality for XPath
 document.getElementById("reset-xpath-btn").addEventListener("click", resetXPathFields);
 
-
-
-
-
-
 // Mobile Menu Implementation
+document.addEventListener('DOMContentLoaded', function() {
     // Create mobile menu container
     const header = document.querySelector('header');
     const mobileNavContainer = document.createElement('div');
