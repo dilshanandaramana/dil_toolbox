@@ -4,85 +4,558 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coder's Toolbox</title>
-    <link rel="Shortcut Icon" href="logo.ico" type="ico">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2300a78e' d='M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z'/%3E%3C/svg%3E" type="image/svg+xml">
+    <style>
+        /* Base styles */
+        :root {
+            --primary-color: #00a78e;
+            --primary-dark: #037766;
+            --primary-light: #00c1a3;
+            --bg-light: #f9f9f9;
+            --bg-dark: #222;
+            --text-light: #333;
+            --text-dark: #eee;
+            --accent-success: #4CAF50;
+            --accent-info: #2196F3;
+            --accent-warning: #FF9800;
+            --accent-purple: #9C27B0;
+            --accent-pink: #E91E63;
+            --accent-blue: #3F51B5;
+            --accent-cyan: #00BCD4;
+            --accent-teal: #009688;
+            --accent-lime: #CDDC39;
+            --accent-orange: #FF5722;
+            --accent-grey: #607D8B;
+            --border-radius: 8px;
+            --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+            --transition-speed: 0.3s;
+        }
+
+        /* Light/Dark mode variables */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: var(--bg-dark);
+                --text-color: var(--text-dark);
+                --input-bg: #333;
+                --input-border: #555;
+                --readonly-bg: #444;
+                --card-bg: #2a2a2a;
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-color: var(--bg-light);
+                --text-color: var(--text-light);
+                --input-bg: #f9f9f9;
+                --input-border: #ddd;
+                --readonly-bg: #f0f0f0;
+                --card-bg: #fff;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        /* Theme switcher */
+        .theme-switch {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: var(--primary-color);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: background-color var(--transition-speed);
+        }
+
+        .theme-switch:hover {
+            background: var(--primary-light);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Header and Navigation */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+            padding: 10px 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            list-style: none;
+            margin: 0;
+            padding: 8px 5px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .navbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .navbar li {
+            flex: 0 0 auto;
+            margin: 0 3px;
+            white-space: nowrap;
+        }
+
+        .navbar li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: block;
+            transition: all var(--transition-speed);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar li a:hover, .tab-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab-link.active {
+            font-weight: 600;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Tab content */
+        .tab-content {
+            display: none;
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-speed);
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Form elements */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .input-group {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 15px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--primary-color);
+            font-size: 0.95rem;
+        }
+
+        input, select, textarea {
+            padding: 12px 15px;
+            width: 100%;
+            font-size: 1em;
+            border: 1px solid var(--input-border);
+            border-radius: var(--border-radius);
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            transition: all var(--transition-speed);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 167, 142, 0.2);
+        }
+
+        input[readonly] {
+            background-color: var(--readonly-bg);
+            cursor: not-allowed;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Button styles */
+        button {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            margin-top: 15px;
+            box-shadow: var(--shadow-sm);
+            font-weight: 500;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: scale(0.98) translateY(0);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* XPath section specific */
+        #xpath-results {
+            background-color: var(--readonly-bg);
+            padding: 15px;
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            text-align: left;
+            white-space: pre-wrap;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--input-border);
+            overflow-x: auto;
+        }
+
+        /* Section headings */
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-color), var(--primary-light));
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: var(--text-color);
+            margin: 1.5rem 0 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* Input fields styling */
+        /* Number conversion */
+        #decimal {
+            border-left: 3px solid var(--accent-success);
+        }
+
+        #hex {
+            border-left: 3px solid var(--accent-info);
+        }
+
+        #octal {
+            border-left: 3px solid var(--accent-warning);
+        }
+
+        #binary {
+            border-left: 3px solid var(--accent-purple);
+        }
+
+        /* Time conversion */
+        #hours {
+            border-left: 3px solid var(--accent-pink);
+        }
+
+        #minutes {
+            border-left: 3px solid var(--accent-purple);
+        }
+
+        #seconds {
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        #milliseconds {
+            border-left: 3px solid var(--accent-cyan);
+        }
+
+        /* String conversion */
+        #input-string {
+            border-left: 3px solid var(--accent-teal);
+        }
+
+        #uppercase, #lowercase, #reverse, #length {
+            border-left: 3px solid var(--accent-grey);
+        }
+
+        /* Network inputs */
+        #ip-address {
+            border-left: 3px solid var(--accent-orange);
+        }
+
+        #decimal-ip, #binary-ip, #hex-ip {
+            border-left: 3px solid var(--accent-grey);
+        }
+
+        /* Bandwidth inputs */
+        #bandwidth-value, #bandwidth-unit {
+            border-left: 3px solid var(--accent-lime);
+        }
+
+        #kbps-output, #mbps-output, #gbps-output {
+            border-left: 3px solid var(--accent-grey);
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            display: none;
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            border-radius: 5px;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
+            .navbar {
+                padding: 5px;
+                justify-content: flex-start;
+            }
+            
+            .navbar li a {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .tab-content {
+                margin: 15px 10px;
+                padding: 15px;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .mobile-menu {
+                display: block;
+                background-color: var(--primary-dark);
+                padding: 10px 0;
+                text-align: center;
+            }
+            
+            .navbar-wrapper {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+            
+            .navbar-wrapper.active {
+                max-height: 300px;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            input, select, textarea {
+                font-size: 16px; /* Prevents zoom on focus in iOS */
+            }
+            
+            .tab-content {
+                padding: 15px 10px;
+            }
+            
+            button {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .theme-switch {
+                width: 35px;
+                height: 35px;
+                top: 5px;
+                right: 5px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <button class="theme-switch" id="theme-switch" title="Toggle Theme">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+
     <header>
-        <nav>
-            <ul class="navbar">
-                <li><a href="https://dilshanandaramana.com/" class="tab-link">HOME PAGE</a></li>
-                <li><a href="#number-conversion" class="tab-link" data-tab="number-conversion">Number Conversion</a></li>
-                <li><a href="#time-conversion" class="tab-link" data-tab="time-conversion">Time Conversion</a></li>
-                <li><a href="#string-conversion" class="tab-link" data-tab="string-conversion">String Conversion</a></li>
-                <li><a href="#network" class="tab-link" data-tab="network">Network</a></li>
-                <li><a href="#bandwidth" class="tab-link" data-tab="bandwidth">Bandwidth</a></li>
-                <li><a href="#xpath" class="tab-link" data-tab="xpath">XPath (Beta)</a></li>
-            </ul>
-        </nav>
+        <div class="mobile-menu">
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu">☰</button>
+        </div>
+        <div class="navbar-wrapper">
+            <nav>
+                <ul class="navbar">
+                    <li><a href="#number-conversion" class="tab-link" data-tab="number-conversion">Number Conversion</a></li>
+                    <li><a href="#time-conversion" class="tab-link" data-tab="time-conversion">Time Conversion</a></li>
+                    <li><a href="#string-conversion" class="tab-link" data-tab="string-conversion">String Conversion</a></li>
+                    <li><a href="#network" class="tab-link" data-tab="network">Network</a></li>
+                    <li><a href="#bandwidth" class="tab-link" data-tab="bandwidth">Bandwidth</a></li>
+                    <li><a href="#xpath" class="tab-link" data-tab="xpath">XPath</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <section id="time-conversion" class="tab-content">
-        <h2>Time Conversion</h2>
-        <form id="time-converter-form">
-            <label for="hours">Hours</label>
-            <input type="text" id="hours" placeholder="Enter hours">
-    
-            <label for="minutes">Minutes</label>
-            <input type="text" id="minutes" placeholder="Enter minutes">
-    
-            <label for="seconds">Seconds</label>
-            <input type="text" id="seconds" placeholder="Enter seconds">
-    
-            <label for="milliseconds">Milliseconds</label>
-            <input type="text" id="milliseconds" placeholder="Enter milliseconds">
-            
-            <br>
-            <!-- Reset button -->
-            <button type="button" id="time-reset-btn">Reset</button>
-        </form>
-    </section>
-    
     <section id="number-conversion" class="tab-content active">
         <h2>Number Conversion</h2>
         <form id="converter-form">
-            <label for="decimal">Decimal (10)</label>
-            <input type="text" id="decimal" placeholder="Enter decimal value">
-        
-            <label for="hex">Hex (16)</label>
-            <input type="text" id="hex" placeholder="Enter hexadecimal value">
-        
-            <label for="octal">Octal (8)</label>
-            <input type="text" id="octal" placeholder="Enter octal value">
-        
-            <label for="binary">Binary (2)</label>
-            <input type="text" id="binary" placeholder="Enter binary value">
-        <br>
-            <!-- Reset button -->
+            <div class="input-group">
+                <label for="decimal">Decimal (Base 10)</label>
+                <input type="text" id="decimal" placeholder="Enter decimal value">
+            </div>
+            
+            <div class="input-group">
+                <label for="hex">Hexadecimal (Base 16)</label>
+                <input type="text" id="hex" placeholder="Enter hexadecimal value">
+            </div>
+            
+            <div class="input-group">
+                <label for="octal">Octal (Base 8)</label>
+                <input type="text" id="octal" placeholder="Enter octal value">
+            </div>
+            
+            <div class="input-group">
+                <label for="binary">Binary (Base 2)</label>
+                <input type="text" id="binary" placeholder="Enter binary value">
+            </div>
+            
             <button type="button" id="reset-btn">Reset</button>
         </form>         
     </section>
 
+    <section id="time-conversion" class="tab-content">
+        <h2>Time Conversion</h2>
+        <form id="time-converter-form">
+            <div class="input-group">
+                <label for="hours">Hours</label>
+                <input type="text" id="hours" placeholder="Enter hours">
+            </div>
+            
+            <div class="input-group">
+                <label for="minutes">Minutes</label>
+                <input type="text" id="minutes" placeholder="Enter minutes">
+            </div>
+            
+            <div class="input-group">
+                <label for="seconds">Seconds</label>
+                <input type="text" id="seconds" placeholder="Enter seconds">
+            </div>
+            
+            <div class="input-group">
+                <label for="milliseconds">Milliseconds</label>
+                <input type="text" id="milliseconds" placeholder="Enter milliseconds">
+            </div>
+            
+            <button type="button" id="time-reset-btn">Reset</button>
+        </form>
+    </section>
+    
     <section id="string-conversion" class="tab-content">
         <h2>String Conversion</h2>
         <form id="string-converter-form">
-            <label for="input-string">Input String</label>
-            <input type="text" id="input-string" placeholder="Enter a string">
+            <div class="input-group">
+                <label for="input-string">Input String</label>
+                <input type="text" id="input-string" placeholder="Enter a string">
+            </div>
             
-            <label for="uppercase">Uppercase</label>
-            <input type="text" id="uppercase" placeholder="Uppercase" readonly>
-    
-            <label for="lowercase">Lowercase</label>
-            <input type="text" id="lowercase" placeholder="Lowercase" readonly>
-    
-            <label for="reverse">Reversed String</label>
-            <input type="text" id="reverse" placeholder="Reversed String" readonly>
-    
-            <label for="length">String Length</label>
-            <input type="text" id="length" placeholder="String Length" readonly>
+            <div class="input-group">
+                <label for="uppercase">Uppercase</label>
+                <input type="text" id="uppercase" placeholder="Uppercase" readonly>
+            </div>
             
-            <br>
-            <!-- Reset button -->
+            <div class="input-group">
+                <label for="lowercase">Lowercase</label>
+                <input type="text" id="lowercase" placeholder="Lowercase" readonly>
+            </div>
+            
+            <div class="input-group">
+                <label for="reverse">Reversed String</label>
+                <input type="text" id="reverse" placeholder="Reversed String" readonly>
+            </div>
+            
+            <div class="input-group">
+                <label for="length">String Length</label>
+                <input type="text" id="length" placeholder="String Length" readonly>
+            </div>
+            
             <button type="button" id="reset-string-btn">Reset</button>
         </form>
     </section>
@@ -90,20 +563,26 @@
     <section id="network" class="tab-content">
         <h2>Network Conversion</h2>
         <form id="network-converter-form">
-            <label for="ip-address">IP Address</label>
-            <input type="text" id="ip-address" placeholder="Enter an IP address (e.g., 192.168.1.1)">
-    
-            <label for="decimal-ip">Decimal</label>
-            <input type="text" id="decimal-ip" placeholder="Decimal representation" readonly>
-    
-            <label for="binary-ip">Binary</label>
-            <input type="text" id="binary-ip" placeholder="Binary representation" readonly>
-    
-            <label for="hex-ip">Hexadecimal</label>
-            <input type="text" id="hex-ip" placeholder="Hexadecimal representation" readonly>
+            <div class="input-group">
+                <label for="ip-address">IP Address</label>
+                <input type="text" id="ip-address" placeholder="Enter an IP address (e.g., 192.168.1.1)">
+            </div>
             
-            <br>
-            <!-- Reset button -->
+            <div class="input-group">
+                <label for="decimal-ip">Decimal</label>
+                <input type="text" id="decimal-ip" placeholder="Decimal representation" readonly>
+            </div>
+            
+            <div class="input-group">
+                <label for="binary-ip">Binary</label>
+                <input type="text" id="binary-ip" placeholder="Binary representation" readonly>
+            </div>
+            
+            <div class="input-group">
+                <label for="hex-ip">Hexadecimal</label>
+                <input type="text" id="hex-ip" placeholder="Hexadecimal representation" readonly>
+            </div>
+            
             <button type="button" id="reset-network-btn">Reset</button>
         </form>
     </section>
@@ -111,55 +590,495 @@
     <section id="bandwidth" class="tab-content">
         <h2>Bandwidth Conversion</h2>
         <form id="bandwidth-converter-form">
-            <label for="bandwidth-value">Enter Bandwidth Value</label>
-            <input type="text" id="bandwidth-value" placeholder="Enter value (e.g., 100)">
-    
-            <label for="bandwidth-unit">Select Unit</label>
-            <select id="bandwidth-unit">
-                <option value="bps">bps (Bits per second)</option>
-                <option value="kbps">kbps (Kilobits per second)</option>
-                <option value="mbps">Mbps (Megabits per second)</option>
-                <option value="gbps">Gbps (Gigabits per second)</option>
-            </select>
+            <div class="input-group">
+                <label for="bandwidth-value">Enter Bandwidth Value</label>
+                <input type="text" id="bandwidth-value" placeholder="Enter value (e.g., 100)">
+            </div>
+            
+            <div class="input-group">
+                <label for="bandwidth-unit">Select Unit</label>
+                <select id="bandwidth-unit">
+                    <option value="bps">bps (Bits per second)</option>
+                    <option value="kbps">kbps (Kilobits per second)</option>
+                    <option value="mbps">Mbps (Megabits per second)</option>
+                    <option value="gbps">Gbps (Gigabits per second)</option>
+                </select>
+            </div>
     
             <h3>Converted Values</h3>
-            <label for="kbps-output">Kilobits per second (kbps)</label>
-            <input type="text" id="kbps-output" placeholder="Converted value" readonly>
+            
+            <div class="input-group">
+                <label for="kbps-output">Kilobits per second (kbps)</label>
+                <input type="text" id="kbps-output" placeholder="Converted value" readonly>
+            </div>
+            
+            <div class="input-group">
+                <label for="mbps-output">Megabits per second (Mbps)</label>
+                <input type="text" id="mbps-output" placeholder="Converted value" readonly>
+            </div>
+            
+            <div class="input-group">
+                <label for="gbps-output">Gigabits per second (Gbps)</label>
+                <input type="text" id="gbps-output" placeholder="Converted value" readonly>
+            </div>
     
-            <label for="mbps-output">Megabits per second (Mbps)</label>
-            <input type="text" id="mbps-output" placeholder="Converted value" readonly>
-    
-            <label for="gbps-output">Gigabits per second (Gbps)</label>
-            <input type="text" id="gbps-output" placeholder="Converted value" readonly>
-    
-            <br>
-            <!-- Reset button -->
             <button type="button" id="reset-bandwidth-btn">Reset</button>
         </form>
     </section>
     
     <section id="xpath" class="tab-content">
-        <h2>XPath (Beta)</h2>
+        <h2>XPath Tester</h2>
         <form id="xpath-tester-form">
-            <label for="xml-content">Enter XML/HTML Content</label>
-            <textarea id="xml-content" rows="10" placeholder="Paste your XML/HTML content here"></textarea>
+            <div class="input-group">
+                <label for="xml-content">XML/HTML Content</label>
+                <textarea id="xml-content" rows="8" placeholder="Paste your XML/HTML content here"></textarea>
+            </div>
             
-            <label for="xpath-expression">Enter XPath Expression</label>
-            <input type="text" id="xpath-expression" placeholder="Enter XPath expression">
+            <div class="input-group">
+                <label for="xpath-expression">XPath Expression</label>
+                <input type="text" id="xpath-expression" placeholder="Enter XPath expression">
+            </div>
             
-            <br>
-            <!-- XPath Evaluate Button -->
             <button type="button" id="evaluate-xpath-btn">Evaluate XPath</button>
     
             <h3>Results</h3>
             <pre id="xpath-results">Results will appear here...</pre>
     
-            <!-- Reset button -->
             <button type="button" id="reset-xpath-btn">Reset</button>
         </form>
     </section>
-    
 
-    <script src="scripts.js"></script> <!-- Link to your JS file -->
+    <footer>
+        <p>Coder's Toolbox &copy; <span id="current-year">2025</span> | All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Set current year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Theme switcher
+        const themeSwitch = document.getElementById('theme-switch');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // Check if user has already set a theme preference
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            document.body.classList.add(currentTheme);
+        }
+        
+        themeSwitch.addEventListener('click', function() {
+            if (prefersDarkScheme.matches) {
+                document.body.classList.toggle('light-theme');
+                const theme = document.body.classList.contains('light-theme') ? 'light-theme' : '';
+                localStorage.setItem('theme', theme);
+            } else {
+                document.body.classList.toggle('dark-theme');
+                const theme = document.body.classList.contains('dark-theme') ? 'dark-theme' : '';
+                localStorage.setItem('theme', theme);
+            }
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navbarWrapper = document.querySelector('.navbar-wrapper');
+        
+        menuToggle.addEventListener('click', function() {
+            navbarWrapper.classList.toggle('active');
+        });
+
+        // Tab functionality
+        const tabLinks = document.querySelectorAll(".tab-link");
+
+        // Add event listeners to tab links
+        tabLinks.forEach(link => {
+            link.addEventListener("click", function(event) {
+                event.preventDefault(); // Prevent default anchor behavior
+                const tabId = this.getAttribute("data-tab");
+                
+                // Hide all tab content
+                document.querySelectorAll(".tab-content").forEach(tab => {
+                    tab.classList.remove("active");
+                });
+
+                // Show the clicked tab content
+                document.getElementById(tabId).classList.add("active");
+
+                // Update active class on tab links
+                tabLinks.forEach(link => link.classList.remove("active"));
+                this.classList.add("active");
+                
+                // Close mobile menu if open
+                navbarWrapper.classList.remove('active');
+                
+                // Update URL hash
+                window.location.hash = tabId;
+            });
+        });
+
+        // NUMBER CONVERSION
+        // Event listener for Decimal input
+        document.getElementById("decimal").addEventListener("input", function() {
+            let decimalValue = parseInt(this.value, 10);
+            if (!isNaN(decimalValue)) {
+                document.getElementById("hex").value = decimalValue.toString(16).toUpperCase();
+                document.getElementById("octal").value = decimalValue.toString(8);
+                document.getElementById("binary").value = decimalValue.toString(2);
+            } else if (this.value === '') {
+                resetFields();
+            }
+        });
+
+        // Event listener for Hexadecimal input
+        document.getElementById("hex").addEventListener("input", function() {
+            let hexValue = parseInt(this.value, 16);
+            if (!isNaN(hexValue)) {
+                document.getElementById("decimal").value = hexValue;
+                document.getElementById("octal").value = hexValue.toString(8);
+                document.getElementById("binary").value = hexValue.toString(2);
+            } else if (this.value === '') {
+                resetFields();
+            }
+        });
+
+        // Event listener for Octal input
+        document.getElementById("octal").addEventListener("input", function() {
+            let octalValue = parseInt(this.value, 8);
+            if (!isNaN(octalValue)) {
+                document.getElementById("decimal").value = octalValue;
+                document.getElementById("hex").value = octalValue.toString(16).toUpperCase();
+                document.getElementById("binary").value = octalValue.toString(2);
+            } else if (this.value === '') {
+                resetFields();
+            }
+        });
+
+        // Event listener for Binary input
+        document.getElementById("binary").addEventListener("input", function() {
+            let binaryValue = parseInt(this.value, 2);
+            if (!isNaN(binaryValue)) {
+                document.getElementById("decimal").value = binaryValue;
+                document.getElementById("hex").value = binaryValue.toString(16).toUpperCase();
+                document.getElementById("octal").value = binaryValue.toString(8);
+            } else if (this.value === '') {
+                resetFields();
+            }
+        });
+
+        // Function to reset fields to default if input is invalid
+        function resetFields() {
+            document.getElementById("decimal").value = "";
+            document.getElementById("hex").value = "";
+            document.getElementById("octal").value = "";
+            document.getElementById("binary").value = "";
+        }
+
+        // Reset button functionality
+        document.getElementById("reset-btn").addEventListener("click", resetFields);
+
+        // TIME CONVERSION
+        // Event listener for Hours input
+        document.getElementById("hours").addEventListener("input", function() {
+            let hoursValue = parseFloat(this.value);
+            if (!isNaN(hoursValue)) {
+                document.getElementById("minutes").value = (hoursValue * 60).toFixed(2);
+                document.getElementById("seconds").value = (hoursValue * 3600).toFixed(2);
+                document.getElementById("milliseconds").value = (hoursValue * 3600000).toFixed(2);
+            } else if (this.value === '') {
+                resetTimeFields();
+            }
+        });
+
+        // Event listener for Minutes input
+        document.getElementById("minutes").addEventListener("input", function() {
+            let minutesValue = parseFloat(this.value);
+            if (!isNaN(minutesValue)) {
+                document.getElementById("hours").value = (minutesValue / 60).toFixed(4);
+                document.getElementById("seconds").value = (minutesValue * 60).toFixed(2);
+                document.getElementById("milliseconds").value = (minutesValue * 60000).toFixed(2);
+            } else if (this.value === '') {
+                resetTimeFields();
+            }
+        });
+
+        // Event listener for Seconds input
+        document.getElementById("seconds").addEventListener("input", function() {
+            let secondsValue = parseFloat(this.value);
+            if (!isNaN(secondsValue)) {
+                document.getElementById("hours").value = (secondsValue / 3600).toFixed(6);
+                document.getElementById("minutes").value = (secondsValue / 60).toFixed(4);
+                document.getElementById("milliseconds").value = (secondsValue * 1000).toFixed(2);
+            } else if (this.value === '') {
+                resetTimeFields();
+            }
+        });
+
+        // Event listener for Milliseconds input
+        document.getElementById("milliseconds").addEventListener("input", function() {
+            let millisecondsValue = parseFloat(this.value);
+            if (!isNaN(millisecondsValue)) {
+                document.getElementById("hours").value = (millisecondsValue / 3600000).toFixed(8);
+                document.getElementById("minutes").value = (millisecondsValue / 60000).toFixed(6);
+                document.getElementById("seconds").value = (millisecondsValue / 1000).toFixed(4);
+            } else if (this.value === '') {
+                resetTimeFields();
+            }
+        });
+
+        // Function to reset time fields
+        function resetTimeFields() {
+            document.getElementById("hours").value = "";
+            document.getElementById("minutes").value = "";
+            document.getElementById("seconds").value = "";
+            document.getElementById("milliseconds").value = "";
+        }
+
+        // Reset button functionality for Time Conversion
+        document.getElementById("time-reset-btn").addEventListener("click", resetTimeFields);
+
+        // STRING CONVERSION
+        // Event listener for String input
+        document.getElementById("input-string").addEventListener("input", function() {
+            let inputValue = this.value;
+
+            // Convert to uppercase
+            document.getElementById("uppercase").value = inputValue.toUpperCase();
+
+            // Convert to lowercase
+            document.getElementById("lowercase").value = inputValue.toLowerCase();
+
+            // Reverse the string
+            document.getElementById("reverse").value = inputValue.split('').reverse().join('');
+
+            // Calculate string length
+            document.getElementById("length").value = inputValue.length;
+        });
+
+        // Reset button functionality for String Conversion
+        document.getElementById("reset-string-btn").addEventListener("click", function() {
+            document.getElementById("input-string").value = "";
+            document.getElementById("uppercase").value = "";
+            document.getElementById("lowercase").value = "";
+            document.getElementById("reverse").value = "";
+            document.getElementById("length").value = "";
+        });
+
+        // NETWORK CONVERSION
+        // Function to convert IP address to decimal, binary, and hexadecimal
+        function convertIp(ip) {
+            let parts = ip.split('.').map(Number);
+            if (parts.length === 4 && parts.every(part => part >= 0 && part <= 255)) {
+                let decimalValue = parts.reduce((acc, part) => (acc << 8) + part, 0);
+                let binaryValue = decimalValue.toString(2).padStart(32, '0');
+                let hexValue = decimalValue.toString(16).toUpperCase().padStart(8, '0');
+
+                document.getElementById("decimal-ip").value = decimalValue;
+                document.getElementById("binary-ip").value = binaryValue.match(/.{1,8}/g).join('.');
+                document.getElementById("hex-ip").value = hexValue.match(/.{1,2}/g).join(':');
+            } else {
+                resetNetworkFields();
+            }
+        }
+
+        // Event listener for IP Address input
+        document.getElementById("ip-address").addEventListener("input", function() {
+            let ipAddress = this.value;
+            if (ipAddress) {
+                convertIp(ipAddress);
+            } else {
+                resetNetworkFields();
+            }
+        });
+
+        // Function to reset network fields
+        function resetNetworkFields() {
+            document.getElementById("decimal-ip").value = "";
+            document.getElementById("binary-ip").value = "";
+            document.getElementById("hex-ip").value = "";
+        }
+
+        // Reset button functionality for Network Conversion
+        document.getElementById("reset-network-btn").addEventListener("click", function() {
+            document.getElementById("ip-address").value = "";
+            resetNetworkFields();
+        });
+
+        // BANDWIDTH CONVERSION
+        // Conversion rates
+        const conversions = {
+            bps: 1,
+            kbps: 1000,
+            mbps: 1000000,
+            gbps: 1000000000,
+        };
+
+        // Function to convert bandwidth value
+        function convertBandwidth(value, unit) {
+            let bpsValue = value * conversions[unit];  // Convert input to bps
+
+            let kbps = bpsValue / conversions.kbps;
+            let mbps = bpsValue / conversions.mbps;
+            let gbps = bpsValue / conversions.gbps;
+
+            document.getElementById("kbps-output").value = kbps.toFixed(2);
+            document.getElementById("mbps-output").value = mbps.toFixed(6);
+            document.getElementById("gbps-output").value = gbps.toFixed(9);
+        }
+
+        // Event listener for bandwidth value input
+        document.getElementById("bandwidth-value").addEventListener("input", function() {
+            let value = parseFloat(this.value);
+            let unit = document.getElementById("bandwidth-unit").value;
+            
+            if (!isNaN(value)) {
+                convertBandwidth(value, unit);
+            } else {
+                resetBandwidthFields();
+            }
+        });
+
+        // Event listener for bandwidth unit change
+        document.getElementById("bandwidth-unit").addEventListener("change", function() {
+            let value = parseFloat(document.getElementById("bandwidth-value").value);
+            if (!isNaN(value)) {
+                convertBandwidth(value, this.value);
+            }
+        });
+
+        // Function to reset bandwidth fields
+        function resetBandwidthFields() {
+            document.getElementById("kbps-output").value = "";
+            document.getElementById("mbps-output").value = "";
+            document.getElementById("gbps-output").value = "";
+        }
+
+        // Reset button functionality for Bandwidth Conversion
+        document.getElementById("reset-bandwidth-btn").addEventListener("click", function() {
+            document.getElementById("bandwidth-value").value = "";
+            resetBandwidthFields();
+        });
+
+        // XPATH TESTER
+        // Function to evaluate XPath expression
+        function evaluateXPath() {
+            let xmlContent = document.getElementById("xml-content").value;
+            let xpathExpression = document.getElementById("xpath-expression").value;
+            let resultArea = document.getElementById("xpath-results");
+
+            if (!xmlContent || !xpathExpression) {
+                resultArea.textContent = "Please provide both XML content and XPath expression.";
+                return;
+            }
+
+            // Create a DOMParser to parse XML/HTML content
+            let parser = new DOMParser();
+            let xmlDoc = parser.parseFromString(xmlContent, "text/xml");
+            
+            // Check for parsing errors
+            if (xmlDoc.getElementsByTagName('parsererror').length > 0) {
+                resultArea.textContent = "XML parsing error. Please check your XML content.";
+                return;
+            }
+
+            // Evaluate the XPath expression
+            try {
+                let result = xmlDoc.evaluate(xpathExpression, xmlDoc, null, XPathResult.ANY_TYPE, null);
+                let node, results = [];
+
+                // Handle different result types (nodes, strings, numbers)
+                switch (result.resultType) {
+                    case XPathResult.STRING_TYPE:
+                        results.push(result.stringValue);
+                        break;
+                    case XPathResult.NUMBER_TYPE:
+                        results.push(result.numberValue);
+                        break;
+                    case XPathResult.BOOLEAN_TYPE:
+                        results.push(result.booleanValue);
+                        break;
+                    case XPathResult.UNORDERED_NODE_ITERATOR_TYPE:
+                    case XPathResult.ORDERED_NODE_ITERATOR_TYPE:
+                        while (node = result.iterateNext()) {
+                            results.push(node.outerHTML || node.textContent);
+                        }
+                        break;
+                    default:
+                        results.push("No results found or unsupported result type.");
+                }
+
+                resultArea.textContent = results.length ? results.join("\n") : "No matching nodes.";
+            } catch (e) {
+                resultArea.textContent = "XPath evaluation error: " + e.message;
+            }
+        }
+
+        // Event listener for Evaluate XPath button
+        document.getElementById("evaluate-xpath-btn").addEventListener("click", evaluateXPath);
+
+        // Function to reset XPath fields
+        function resetXPathFields() {
+            document.getElementById("xml-content").value = "";
+            document.getElementById("xpath-expression").value = "";
+            document.getElementById("xpath-results").textContent = "Results will appear here...";
+        }
+
+        // Reset button functionality for XPath
+        document.getElementById("reset-xpath-btn").addEventListener("click", resetXPathFields);
+
+        // Set the default active tab based on URL hash or default to number conversion
+        function setDefaultActiveTab() {
+            let hash = window.location.hash;
+            if (hash && document.querySelector(hash)) {
+                // Trigger click on the tab link matching the hash
+                document.querySelector(`.tab-link[href="${hash}"]`).click();
+            } else if (!document.querySelector('.tab-content.active')) {
+                // Default to number conversion if no tab is active
+                document.querySelector('.tab-link[data-tab="number-conversion"]').click();
+            }
+        }
+
+        // Set default active tab on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setDefaultActiveTab();
+        });
+
+        // Update active tab when hash changes
+        window.addEventListener('hashchange', setDefaultActiveTab);
+        
+        // Add copy functionality for readonly fields
+        document.querySelectorAll('input[readonly]').forEach(input => {
+            input.addEventListener('click', function() {
+                this.select();
+                try {
+                    // Copy the selected text to clipboard
+                    let successful = document.execCommand('copy');
+                    if (successful) {
+                        // Create tooltip
+                        let tooltip = document.createElement('div');
+                        tooltip.textContent = 'Copied!';
+                        tooltip.style.position = 'absolute';
+                        tooltip.style.backgroundColor = 'rgba(0,0,0,0.7)';
+                        tooltip.style.color = 'white';
+                        tooltip.style.padding = '5px 10px';
+                        tooltip.style.borderRadius = '3px';
+                        tooltip.style.fontSize = '12px';
+                        tooltip.style.zIndex = '1000';
+                        
+                        // Position tooltip near the input
+                        let rect = this.getBoundingClientRect();
+                        tooltip.style.top = (rect.top - 30) + 'px';
+                        tooltip.style.left = (rect.left + rect.width / 2 - 30) + 'px';
+                        
+                        // Add to DOM, then remove after delay
+                        document.body.appendChild(tooltip);
+                        setTimeout(() => {
+                            document.body.removeChild(tooltip);
+                        }, 1500);
+                    }
+                } catch (err) {
+                    console.error('Unable to copy to clipboard: ', err);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
